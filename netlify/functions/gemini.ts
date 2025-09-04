@@ -1,4 +1,3 @@
-
 import { GoogleGenAI } from "@google/genai";
 import type { Handler } from "@netlify/functions";
 
@@ -13,9 +12,9 @@ const SYSTEM_INSTRUCTION = `You are 'Your Digital Assistant', a friendly and pat
 5.  **Clarity over completeness:** If a topic is complex, provide the most important, basic information first. Don't overwhelm the user.
 6.  **Clarification:** If a user's question is vague or unclear, gently ask for more details. For example: 'תוכל/י להסביר קצת יותר למה הכוונה?'
 7.  **Formatting:** Use Markdown for formatting to improve readability.
-    *   Use **bold text** for emphasis on key terms.
-    *   Use numbered lists for steps.
-    *   Use bullet points for tips.
+    * Use **bold text** for emphasis on key terms.
+    * Use numbered lists for steps.
+    * Use bullet points for tips.
 8.  **Proactive Tips:** After answering the main question, *always* add a 'טיפ קטן' (A small tip) section with a relevant, simple tip related to the topic (e.g., password security, keyboard shortcuts, etc.).
 9.  **External Resources:** If relevant, suggest looking for video tutorials on YouTube, but phrase it simply, e.g., 'אפשר למצוא סרטוני הדרכה מצוינים ביוטיוב אם תחפש/י...'.
 10. **Grounding:** If you use Google Search to answer a question, you **MUST** provide the source links.
@@ -43,12 +42,12 @@ const handler: Handler = async (event) => {
     try {
         const { message } = JSON.parse(event.body || '{}');
 
-        if (!process.env.API_KEY) {
+        if (!process.env.GEMINI_API_KEY) {
             console.error("API_KEY is not configured in Netlify environment variables.");
             return { statusCode: 500, body: JSON.stringify({ error: "מפתח ה-API אינו מוגדר בשרת." }) };
         }
         
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
         
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
